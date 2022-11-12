@@ -1,0 +1,22 @@
+###################################
+#  Machine-specific stuff
+set(AVR_DUDE_EXECUTABLE C:/Users/elbaz/CLionProjects/avrdude/avrdude.exe)
+set(AVR_DUDE_PORT COM3)
+#  End of machine-specific stuff
+###################################
+
+set(MCU atmega328p)
+
+add_executable(ardstart ${SRC_LIST})
+
+set(HEX_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.hex)
+set(BIN_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.bin)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_OBJCOPY} -Oihex $<TARGET_FILE:${PROJECT_NAME}> ${HEX_FILE}
+        COMMENT "Building ${HEX_FILE}")
+
+add_custom_target(FLASH
+        ${AVR_DUDE_EXECUTABLE} -p ${MCU} -c arduino -b115200 -P ${AVR_DUDE_PORT} -v -v -F -D -U flash:w:${PROJECT_BINARY_DIR}/${PROJECT_NAME}:e
+        DEPENDS ${PROJECT_NAME}
+        COMMENT "Flash to ${TARGET_CPU}")

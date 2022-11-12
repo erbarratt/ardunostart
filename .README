@@ -1,0 +1,13 @@
+How to get to being able to flash Arduino Uno.
+
+Install CLion
+Install AVR8 toolchain from https://www.microchip.com/mplab/avr-support/avr-and-arm-toolchains-c-compilers
+Install avrdude (ming32) from http://download.savannah.gnu.org/releases/avrdude/
+Install PlatformIO via PowerShell and python
+Add platformIO scripts folder to system path variable
+Make new CLion project from platformio > arduino menu
+Add a CMakeListsUser.txt in root to include specific bits
+Add toolchain with build tool being mingw32-make.exe in appdata toolbox folder
+    compilers and debuggers from downloaded toolchain
+
+Go!
