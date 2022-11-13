@@ -7,6 +7,12 @@ set(AVR_DUDE_PORT COM3)
 
 set(MCU atmega328p)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions -fno-threadsafe-statics -fpermissive" )
+add_compile_options(-c  -Os -Wall -ffunction-sections -fdata-sections -flto -mmcu=${MCU})
+
+add_compile_definitions(ARDUINO_AVR_UNO;F_CPU=16000000L;ARDUINO_ARCH_AVR;ARDUINO=10808)
+add_link_options(-Os -flto -fuse-linker-plugin -mmcu=${MCU} -Wl,--gc-sections,--print-memory-usage,-Map=${PROJECT_BINARY_DIR}/${PROJECT_NAME}.map -lm)
+
 add_executable(ardstart ${SRC_LIST})
 
 set(HEX_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.hex)

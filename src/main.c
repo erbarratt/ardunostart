@@ -1,22 +1,19 @@
-#include <arduino.h>
-#include <util/delay.h>
+//#include <avr/io.h>
+//#include <util/delay.h>
+//#include <inttypes.h>
 
 int main(){
 
-	DDRB = DDRB | (1 << DDB5);
+	//							| take this memory location
+	//		cast it to a volatile unsigned char pointer
+	//dereference it to write to that chunk of memory
 
-	while(1){
-
-		PORTB = PORTB | (1 << PORTB5);
-
-		_delay_ms(1000);
-
-		PORTB = PORTB & ~(1 << PORTB5);
-
-		_delay_ms(1000);
-
+	(*(volatile unsigned char *)0x24) = 0xff;
+	while (1) {
+		(*(volatile unsigned char *)0x23) = (*(volatile unsigned char *)0x23) | (1<<5);
+		for (long i = 0; i < 500000; i++) {
+			asm("");
+		}
 	}
-
-	return 0;
 
 }
